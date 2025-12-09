@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sebas - Language Learning App Demo</title>
+    <meta name="description" content="AI-powered English practice for Spanish speakers through realistic roleplay scenarios">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        * { -webkit-tap-highlight-color: transparent; }
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .password-screen { min-height: 100vh; min-height: 100dvh; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .fade-in { animation: fadeIn 0.5s ease-out forwards; }
+        @keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-5px); } 75% { transform: translateX(5px); } }
+        .shake { animation: shake 0.3s ease-in-out; }
+    </style>
+</head>
+<body class="bg-slate-900">
+    <!-- Password Gate -->
+    <div id="password-gate" class="password-screen bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 flex items-center justify-center px-6">
+        <div class="w-full max-w-sm fade-in">
+            <!-- Logo/Brand -->
+            <div class="text-center mb-10">
+                <div class="w-20 h-20 bg-gradient-to-br from-indigo-500 to-purple-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-lg shadow-indigo-500/30">
+                    <svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"></path>
+                    </svg>
+                </div>
+                <h1 class="text-3xl font-bold text-white mb-2">Sebas</h1>
+                <p class="text-slate-400">Language Learning App Demo</p>
+            </div>
+
+            <!-- Password Form -->
+            <div class="bg-slate-800/50 backdrop-blur-lg rounded-2xl p-6 border border-slate-700">
+                <p class="text-slate-300 text-center mb-6">Enter the demo password to continue</p>
+                <div class="space-y-4">
+                    <input 
+                        type="password" 
+                        id="password-input" 
+                        placeholder="Password"
+                        class="w-full bg-slate-700 text-white placeholder-slate-500 rounded-xl px-4 py-4 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-center text-lg tracking-widest"
+                        onkeypress="if(event.key === 'Enter') checkPassword()"
+                    >
+                    <p id="error-message" class="text-rose-400 text-sm text-center hidden">Incorrect password. Try again.</p>
+                    <button 
+                        onclick="checkPassword()"
+                        class="w-full bg-gradient-to-r from-indigo-600 to-purple-600 text-white font-semibold rounded-xl py-4 hover:from-indigo-500 hover:to-purple-500 transition-all active:scale-[0.98]"
+                    >
+                        View Demo
+                    </button>
+                </div>
+            </div>
+
+            <p class="text-slate-600 text-sm text-center mt-6">Private demo • RageDesigner</p>
+        </div>
+    </div>
+
+    <!-- App Container (hidden until password entered) -->
+    <div id="app-container" class="hidden"></div>
+
+    <!-- React & Dependencies -->
+    <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
+
+    <script>
+        // Simple password check - change this password as needed
+        const DEMO_PASSWORD = 'sebas2024';
+
+        function checkPassword() {
+            const input = document.getElementById('password-input');
+            const errorMsg = document.getElementById('error-message');
+            
+            if (input.value === DEMO_PASSWORD) {
+                // Hide password gate, show app
+                document.getElementById('password-gate').style.display = 'none';
+                document.getElementById('app-container').classList.remove('hidden');
+                // Load the React app
+                loadApp();
+            } else {
+                // Show error
+                errorMsg.classList.remove('hidden');
+                input.classList.add('shake');
+                setTimeout(() => input.classList.remove('shake'), 300);
+                input.value = '';
+                input.focus();
+            }
+        }
+
+        function loadApp() {
+            // The app will be loaded via external script
+            const script = document.createElement('script');
+            script.type = 'text/babel';
+            script.src = 'app.jsx';
+            document.body.appendChild(script);
+        }
+    </script>
+</body>
+</html>
