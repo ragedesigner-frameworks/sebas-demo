@@ -43,6 +43,8 @@
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide-react@0.263.1/dist/umd/lucide-react.min.js"></script>
     <script>
+        // Create alias so app.jsx can use 'lucide' 
+        window.lucide = window.lucideReact;
         const DEMO_PASSWORD='sebas2024';
         let appLoaded=false;
         function checkPassword(){
